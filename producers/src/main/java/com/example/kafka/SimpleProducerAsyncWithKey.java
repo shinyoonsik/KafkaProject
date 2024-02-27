@@ -10,7 +10,6 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 public class SimpleProducerAsyncWithKey {
-    private static RecordMetadata .;
 
     public static void main(String[] args) {
         String topic = "multipart-topic";
@@ -32,16 +31,7 @@ public class SimpleProducerAsyncWithKey {
             ProducerRecord<Integer, String> record = new ProducerRecord<>(topic, seq, "hello world!");
 
             // 전송
-            kafkaProducer.send(record, (metadata, exception) -> {
-                if (exception == null) {
-                    System.out.println("partition:" + metadata.partition());
-                    System.out.println("offset: " + metadata.offset());
-                    System.out.println("timestamp: " + metadata.timestamp());
-                    System.out.println();
-                } else {
-                    exception.printStackTrace();
-                }
-            });
+            kafkaProducer.send(record, new CustomCallback(seq));
         }
 
         try {
