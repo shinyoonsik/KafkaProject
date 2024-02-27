@@ -25,7 +25,7 @@ public class SimpleProducerAsync {
 
         // send()가 된다고 바로 record를 전송하지 않는다
         // onCompletion()을 실제로 수행하는 스레드는 sender 스레드
-        Future<RecordMetadata> result = kafkaProducer.send(record, (metadata, exception) -> {
+        kafkaProducer.send(record, (metadata, exception) -> {
             if (exception == null) {
                 System.out.println(metadata.partition());
                 System.out.println(metadata.offset());
