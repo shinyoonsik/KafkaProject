@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.Random;
 import java.util.concurrent.Future;
 
 public class SimpleProducerAsync {
@@ -42,6 +43,5 @@ public class SimpleProducerAsync {
         }
 
         kafkaProducer.close();
-
     }
 }
