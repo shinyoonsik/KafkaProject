@@ -1,6 +1,5 @@
 package com.example.kafka;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -10,7 +9,6 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-@Slf4j
 public class SimpleProducerSync {
     public static void main(String[] args) {
         String topic = "simple-topic";

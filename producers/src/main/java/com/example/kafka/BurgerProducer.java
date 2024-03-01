@@ -5,6 +5,8 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.clients.producer.internals.DefaultPartitioner;
+import org.apache.kafka.common.replica.PartitionView;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
@@ -23,7 +25,8 @@ public class BurgerProducer {
         props.setProperty("bootstrap.servers", "localhost:9092");
         props.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        // props.setProperty(ProducerConfig.ACKS_CONFIG, "1");
+        // 나머지는 Default setting을 따름
 
         // KafkaProducer 생성
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(props);
@@ -32,7 +35,7 @@ public class BurgerProducer {
         int sum = 0;
         for(int i=0; i<10; i++){
             long before = System.currentTimeMillis();
-            sendBurgerMessage(kafkaProducer, topic, 100000, true);
+            sendBurgerMessage(kafkaProducer, topic, 100, false);
             long after = System.currentTimeMillis();
 
             System.out.println("Processing Time: " + (after - before) + "ms");
@@ -74,14 +77,14 @@ public class BurgerProducer {
         if (sync) {
             try {
                 RecordMetadata recordMetadata = kafkaProducer.send(producerRecord).get();
-            //  System.out.println("토픽:" + recordMetadata.topic() + " | 파티션:" + recordMetadata.partition() + " | 오프셋: " + recordMetadata.offset() + " 메시지Key: " + message.get("key"));
+              System.out.println("Sync " + "토픽:" + recordMetadata.topic() + " | 파티션:" + recordMetadata.partition() + " | 오프셋: " + recordMetadata.offset() + " 메시지Key: " + message.get("key"));
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
         } else {
             kafkaProducer.send(producerRecord, ((recordMetadata, exception) -> {
                 if (exception == null) {
-                //  System.out.println("토픽:" + recordMetadata.topic() + " | 파티션:" + recordMetadata.partition() + " | 오프셋: " + recordMetadata.offset() + "메시지Key: " + message.get("key"));
+                  System.out.println("Async " + "토픽:" + recordMetadata.topic() + " | 파티션:" + recordMetadata.partition() + " | 오프셋: " + recordMetadata.offset() + " 메시지Key: " + message.get("key"));
                 } else {
                     exception.printStackTrace();
                 }

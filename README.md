@@ -2,10 +2,10 @@
 
 - 목적
   - Kafka 성능 테스트
-- kafka버전
-  - 3.?
 - 상황
-  - Broker: 3, Topic: burger-topic, Partition: 3, ISR: 2, Replication-factor: 3
+    - Broker: 3, Topic: burger-topic, Partition: 3, ISR: 2, Replication-factor: 3
+- kafka version
+    - 7.6.0(Confluent Kafka)
   
 - Test1: Producer 테스트
   - 
@@ -34,7 +34,14 @@
           - TCP 연결 설정: 프로듀서가 처음 브로커와 연결을 맺을 때 TCP 연결 설정에 시간이 소요될 수 있음
           - (Http통신이므로 SSL/TLS핸드쉐이크 과정은 생략되어 원인이 아닌거 같음)
           - JVM 웜업(Warm-up)시간이 필요
+      - sync와 async의 속도 차이 원인
+        - 요청에 대한 응답을 기다리느냐 기다리지 않느냐의 차이도 있지만 sync의 경우 produce의 batch를 활용하기 어렵다. 다시 말해, sync의 경우 batch queue를 채워서 전송하지 못한다 
+  - Q3: Producer의 acks설정이 0이면 sync이든 asycn이든 offset을 받지못한다
+    - acks = 1, all이어야 레코드가 저장된 offset을 받을 수 있다. offset은 리더 파티션에 저장되고 나서야 알수 있는 값이다!
 - Test2: Consumer Rebalancing 테스트
   -
   - Q1: 런타임시에 동일한 컨슈머 그룹의 컨슈머 인스턴스를 1개 ~ 3개(토픽수 만큼)증가시키며 테스트
     - 브로커가 Rebalancing작업을 수행할 때마다 추가된 컨슈머 인스턴스에 특정 파티션이 할당됨
+
+- TODO
+  - slf4j 1.7.36버전은 producer의 설정정보를 출력하고 최신버전은 출력하지못함...추가적인 조치가 필요! or 어떤점이 달라졌는지 확인해보기
