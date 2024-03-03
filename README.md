@@ -1,14 +1,13 @@
 # KafkaProject
 
 - 목적
-  - Kafka 성능 테스트
-- 상황
-    - Broker: 3, Topic: burger-topic, Partition: 3, ISR: 2, Replication-factor: 3
-- kafka version
-    - 7.6.0(Confluent Kafka)
-  
+  - 
+  - Kafka Producer & Consumer 성능 테스트
+
 - Test1: Producer 테스트
   - 
+  - 상황
+    - Broker: 3, Topic: burger-topic, Partition: 3, ISR: 2, Replication-factor: 3
   - Q1: default setting하에 Producer가 메시지 발행시, batch queue를 사용하는지 확인하기
     - [No key]메시지 발행시 0번, 1번, 2번 파티션에 batch형태로 메시지 전송 확인  
     - [With key]메시지 발행시 0번, 1번, 2번 파티션에 batch형태로 메시지 전송이 되지만 key가 없는 형태보다는 batch활용률이 낮음.
@@ -43,5 +42,12 @@
   - Q1: 런타임시에 동일한 컨슈머 그룹의 컨슈머 인스턴스를 1개 ~ 3개(토픽수 만큼)증가시키며 테스트
     - 브로커가 Rebalancing작업을 수행할 때마다 추가된 컨슈머 인스턴스에 특정 파티션이 할당됨
 
+
+- 구조
+  - 
+  - multi-module
+- 카프카 버전
+  - 
+  - 7.6.0(Confluent Kafka)
 - TODO
   - slf4j 1.7.36버전은 producer의 설정정보를 출력하고 최신버전은 출력하지못함...추가적인 조치가 필요! or 어떤점이 달라졌는지 확인해보기

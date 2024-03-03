@@ -22,7 +22,6 @@ public class BurgerProducer {
 
         // KafkaProducer config setting
         Properties props = new Properties();
-        props.setProperty("bootstrap.servers", "localhost:9092");
         props.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         // props.setProperty(ProducerConfig.ACKS_CONFIG, "1");
@@ -77,7 +76,7 @@ public class BurgerProducer {
         if (sync) {
             try {
                 RecordMetadata recordMetadata = kafkaProducer.send(producerRecord).get();
-              System.out.println("Sync " + "토픽:" + recordMetadata.topic() + " | 파티션:" + recordMetadata.partition() + " | 오프셋: " + recordMetadata.offset() + " 메시지Key: " + message.get("key"));
+                System.out.println("Sync " + "토픽:" + recordMetadata.topic() + " | 파티션:" + recordMetadata.partition() + " | 오프셋: " + recordMetadata.offset() + " 메시지Key: " + message.get("key"));
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
