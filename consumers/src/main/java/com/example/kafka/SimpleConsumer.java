@@ -14,10 +14,10 @@ public class SimpleConsumer {
 
     public static void main(String[] args) {
 
-        String topic = "simple-topic4";
+        String topic = "test-test";
 
         Properties props = new Properties();
-        props.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "10.10.10.109:9092");
         props.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "group_01");
@@ -36,10 +36,6 @@ public class SimpleConsumer {
                 System.out.println("커밋된 offset정보: " + committed.offset());
 
             }
-
-
         }
-
-
     }
 }
