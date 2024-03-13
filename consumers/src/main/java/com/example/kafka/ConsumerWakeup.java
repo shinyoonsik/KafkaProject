@@ -52,7 +52,7 @@ public class ConsumerWakeup {
 
                 }
             }
-        } catch (Exception e){
+        } catch (WakeupException e){
             e.printStackTrace();
             log.error("WakeupException이 호출 됨");
         } finally {
